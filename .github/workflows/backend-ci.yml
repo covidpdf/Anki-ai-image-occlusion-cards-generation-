@@ -1,0 +1,50 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'backend/**'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: uv pip install -r requirements.txt
+
+      - name: Lint with Ruff
+        working-directory: ./backend
+        run: uv run ruff check .
+
+      - name: Format check with Black
+        working-directory: ./backend
+        run: uv run black --check .
+
+      - name: Run tests with pytest
+        working-directory: ./backend
+        run: uv run pytest
