@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.egg-info/
+dist-info/
+.venv/
+venv/
+env/
+
+# Build outputs
+/frontend/dist/
+/frontend/.vite/
+/backend/build/
+/backend/.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Development
+.cache/
+*.tmp
+
+# Platform specific
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# PWA
+/frontend/public/sw.js
+/frontend/public/sw.js.map
+/frontend/public/workbox-*.js
+/frontend/public/workbox-*.js.map
+
+# Pnpm
+pnpm-lock.yaml
+
+# Misc
+*.bak
+*.swp
+.DS_Store

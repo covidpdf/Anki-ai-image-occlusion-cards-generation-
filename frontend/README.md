@@ -106,48 +106,41 @@ frontend/
 
 ```tsx
 // src/components/Button/Button.tsx
-import { FC, ReactNode } from 'react'
-import styles from './Button.module.css'
+import { FC, ReactNode } from 'react';
+import styles from './Button.module.css';
 
 interface ButtonProps {
-  onClick: () => void
-  disabled?: boolean
-  variant?: 'primary' | 'secondary'
-  children: ReactNode
+  onClick: () => void;
+  disabled?: boolean;
+  variant?: 'primary' | 'secondary';
+  children: ReactNode;
 }
 
-const Button: FC<ButtonProps> = ({
-  onClick,
-  disabled = false,
-  variant = 'primary',
-  children,
-}) => {
+const Button: FC<ButtonProps> = ({ onClick, disabled = false, variant = 'primary', children }) => {
   return (
-    <button
-      className={`${styles.button} ${styles[variant]}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={`${styles.button} ${styles[variant]}`} onClick={onClick} disabled={disabled}>
       {children}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
 ```
 
 ### Exporting from Components
 
 Create `src/components/index.ts` for easy imports:
+
 ```typescript
-export { default as Button } from './Button'
-export { default as Card } from './Card'
+export { default as Button } from './Button';
+export { default as Card } from './Card';
 // ... more exports
 ```
 
 Then import like:
+
 ```typescript
-import { Button, Card } from '@/components'
+import { Button, Card } from '@/components';
 ```
 
 ## Styling
@@ -155,10 +148,10 @@ import { Button, Card } from '@/components'
 ### CSS Modules (Recommended)
 
 ```tsx
-import styles from './MyComponent.module.css'
+import styles from './MyComponent.module.css';
 
 export default function MyComponent() {
-  return <div className={styles.container}>Content</div>
+  return <div className={styles.container}>Content</div>;
 }
 ```
 
@@ -178,6 +171,7 @@ export default function MyComponent() {
 ### Global Styles
 
 Add to `src/index.css`:
+
 ```css
 /* Global variables */
 :root {
@@ -200,33 +194,34 @@ Add to `src/index.css`:
 
 ```tsx
 interface MyComponentProps {
-  title: string
-  count: number
-  onClick?: () => void
-  data?: Record<string, unknown>
+  title: string;
+  count: number;
+  onClick?: () => void;
+  data?: Record<string, unknown>;
 }
 
 const MyComponent: FC<MyComponentProps> = ({ title, count, onClick, data }) => {
   // ...
-}
+};
 ```
 
 ### Type Definitions
 
 Create `src/types/index.ts`:
+
 ```typescript
 export interface User {
-  id: string
-  name: string
-  email: string
-  createdAt: Date
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
 }
 
 export interface Card {
-  id: string
-  front: string
-  back: string
-  userId: string
+  id: string;
+  front: string;
+  back: string;
+  userId: string;
 }
 ```
 
@@ -236,12 +231,12 @@ export interface Card {
 
 ```typescript
 // src/services/api.ts
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export async function fetchHealth() {
-  const response = await fetch(`${API_URL}/health`)
-  if (!response.ok) throw new Error('Health check failed')
-  return response.json()
+  const response = await fetch(`${API_URL}/health`);
+  if (!response.ok) throw new Error('Health check failed');
+  return response.json();
 }
 
 export async function createCard(data: CardData) {
@@ -249,34 +244,34 @@ export async function createCard(data: CardData) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
-  })
-  if (!response.ok) throw new Error('Failed to create card')
-  return response.json()
+  });
+  if (!response.ok) throw new Error('Failed to create card');
+  return response.json();
 }
 ```
 
 ### Using in Components
 
 ```tsx
-import { useEffect, useState } from 'react'
-import { fetchHealth } from '@/services/api'
+import { useEffect, useState } from 'react';
+import { fetchHealth } from '@/services/api';
 
 export default function Home() {
-  const [status, setStatus] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [status, setStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchHealth()
       .then((data) => setStatus(data.status))
-      .catch((err) => setError(err.message))
-  }, [])
+      .catch((err) => setError(err.message));
+  }, []);
 
   return (
     <div>
       {error && <p>Error: {error}</p>}
       {status && <p>Status: {status}</p>}
     </div>
-  )
+  );
 }
 ```
 
@@ -286,12 +281,12 @@ export default function Home() {
 
 ```typescript
 // src/hooks/useFetch.ts
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 interface UseFetchState<T> {
-  data: T | null
-  loading: boolean
-  error: Error | null
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
 }
 
 export function useFetch<T>(url: string): UseFetchState<T> {
@@ -299,36 +294,37 @@ export function useFetch<T>(url: string): UseFetchState<T> {
     data: null,
     loading: true,
     error: null,
-  })
+  });
 
   useEffect(() => {
-    let cancelled = false
+    let cancelled = false;
 
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         if (!cancelled) {
-          setState({ data, loading: false, error: null })
+          setState({ data, loading: false, error: null });
         }
       })
       .catch((error) => {
         if (!cancelled) {
-          setState({ data: null, loading: false, error })
+          setState({ data: null, loading: false, error });
         }
-      })
+      });
 
     return () => {
-      cancelled = true
-    }
-  }, [url])
+      cancelled = true;
+    };
+  }, [url]);
 
-  return state
+  return state;
 }
 ```
 
 Usage:
+
 ```tsx
-const { data, loading, error } = useFetch('/api/cards')
+const { data, loading, error } = useFetch('/api/cards');
 ```
 
 ## Testing
@@ -353,36 +349,36 @@ pnpm test:coverage
 
 ```tsx
 // src/components/Button/Button.test.tsx
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import Button from './Button'
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import Button from './Button';
 
 describe('Button Component', () => {
   it('renders with children', () => {
-    render(<Button onClick={vi.fn()}>Click me</Button>)
-    expect(screen.getByText('Click me')).toBeInTheDocument()
-  })
+    render(<Button onClick={vi.fn()}>Click me</Button>);
+    expect(screen.getByText('Click me')).toBeInTheDocument();
+  });
 
   it('calls onClick when clicked', async () => {
-    const onClick = vi.fn()
-    const user = userEvent.setup()
+    const onClick = vi.fn();
+    const user = userEvent.setup();
 
-    render(<Button onClick={onClick}>Click me</Button>)
-    await user.click(screen.getByRole('button'))
+    render(<Button onClick={onClick}>Click me</Button>);
+    await user.click(screen.getByRole('button'));
 
-    expect(onClick).toHaveBeenCalledOnce()
-  })
+    expect(onClick).toHaveBeenCalledOnce();
+  });
 
   it('is disabled when disabled prop is true', () => {
     render(
       <Button onClick={vi.fn()} disabled>
         Click me
       </Button>
-    )
-    expect(screen.getByRole('button')).toBeDisabled()
-  })
-})
+    );
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+});
 ```
 
 ## Code Quality
@@ -400,6 +396,7 @@ pnpm lint --fix
 ```
 
 Configuration in `.eslintrc.cjs`:
+
 - React hooks rules
 - TypeScript type checking
 - Prettier integration
@@ -414,6 +411,7 @@ pnpm format
 ```
 
 Configuration in `prettier.config.cjs`:
+
 - 100 character line width
 - Single quotes
 - No trailing commas in TypeScript
@@ -435,6 +433,7 @@ pnpm build
 ### Creating .env File
 
 Copy `.env.example` to `.env`:
+
 ```bash
 cp .env.example .env
 ```
@@ -443,16 +442,16 @@ cp .env.example .env
 
 ```typescript
 // Vite exposes env vars prefixed with VITE_
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Add types
 declare interface ImportMetaEnv {
-  readonly VITE_API_URL: string
-  readonly VITE_LOG_LEVEL?: string
+  readonly VITE_API_URL: string;
+  readonly VITE_LOG_LEVEL?: string;
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv
+  readonly env: ImportMetaEnv;
 }
 ```
 
@@ -486,6 +485,7 @@ pnpm preview
 ## Vite Configuration
 
 See `vite.config.ts` for configuration:
+
 - React plugin with fast refresh
 - TypeScript support
 - CSS modules
@@ -499,16 +499,16 @@ See `vite.config.ts` for configuration:
 Vite automatically splits code. For manual splitting:
 
 ```tsx
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react';
 
-const HeavyComponent = lazy(() => import('./HeavyComponent'))
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
 
 export default function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <HeavyComponent />
     </Suspense>
-  )
+  );
 }
 ```
 
@@ -516,10 +516,10 @@ export default function App() {
 
 ```tsx
 // Use optimized formats
-<img src="/images/photo.webp" alt="description" />
+<img src="/images/photo.webp" alt="description" />;
 
 // Or use dynamic imports
-import heroImage from '/images/hero.jpg'
+import heroImage from '/images/hero.jpg';
 ```
 
 ### Build Analysis
