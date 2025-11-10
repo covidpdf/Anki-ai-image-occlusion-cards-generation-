@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #999;
+  font-size: 16px;
+}
+
+.editorLayout {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.canvasWrapper {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.saveBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #1976d2;
+  border-radius: 4px;
+  background-color: #1976d2;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveBtn:hover {
+  background-color: #1565c0;
+  border-color: #1565c0;
+}
+
+.saveBtn:active {
+  background-color: #0d47a1;
+}
