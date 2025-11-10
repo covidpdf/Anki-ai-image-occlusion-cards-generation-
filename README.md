@@ -2,6 +2,15 @@
 
 A full-stack application for automatically generating Anki flashcard images with AI-powered occlusion. This project combines a modern React + Vite frontend with a FastAPI backend.
 
+## ✨ Features
+
+- **📄 PDF & Image Upload**: Drag-and-drop interface for uploading PDFs and images
+- **🔍 OCR Processing**: Automatic text extraction using Tesseract.js with Web Worker support
+- **📊 Visual Feedback**: Bounding box highlighting for recognized text
+- **✏️ Manual Editing**: Review and edit extracted text before submission
+- **🎯 Multi-page Support**: Process entire PDF documents with multiple pages
+- **🧪 Comprehensive Testing**: Integration tests for medical textbooks and anatomy images
+
 ## Project Architecture
 
 This is a **monorepo** containing both frontend and backend codebases:
@@ -20,6 +29,8 @@ This is a **monorepo** containing both frontend and backend codebases:
 - **React 18**: UI framework
 - **Vite**: Next-generation build tool
 - **TypeScript**: Type-safe JavaScript
+- **pdf.js**: PDF rendering and page extraction
+- **Tesseract.js**: OCR processing in Web Workers
 - **ESLint + Prettier**: Code quality and formatting
 - **pnpm**: Fast, efficient package manager
 
@@ -248,6 +259,12 @@ cd ../backend && uv run ruff check --fix . && uv run black .
 cd backend
 uv pip install --compile-bytecode -r requirements.txt
 ```
+
+## Documentation
+
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [Development Guide](docs/DEVELOPMENT.md)
+- [OCR Upload Flow](docs/OCR_UPLOAD_FLOW.md)
 
 ## Contributing
 
