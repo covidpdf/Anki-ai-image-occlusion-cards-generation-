@@ -1,0 +1,387 @@
+# Backend - FastAPI Application
+
+This is the backend service for the Anki Image Occlusion Cards Generation application, built with FastAPI.
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11+
+- uv (recommended) or pip
+- Virtual environment (optional but recommended)
+
+### Installation
+
+```bash
+# Install dependencies
+uv pip install -r requirements.txt
+
+# Or with pip
+pip install -r requirements.txt
+```
+
+### Running the Server
+
+```bash
+# Start development server with auto-reload
+uv run uvicorn app.main:app --reload
+
+# Or specify custom host/port
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The API will be available at `http://localhost:8000`
+
+### API Documentation
+
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+- **OpenAPI JSON**: http://localhost:8000/openapi.json
+
+## Project Structure
+
+```
+backend/
+├── app/
+│   ├── api/                # API route modules
+│   │   ├── __init__.py
+│   │   └── health.py      # Health check endpoints
+│   ├── models/             # Database models (SQLAlchemy)
+│   │   └── __init__.py
+│   ├── schemas/            # Request/response schemas (Pydantic)
+│   │   └── __init__.py
+│   ├── services/           # Business logic layer
+│   │   └── __init__.py
+│   ├── __init__.py
+│   └── main.py            # FastAPI application setup
+├── tests/                  # Test suite
+│   ├── __init__.py
+│   └── test_health.py     # Health check tests
+├── requirements.txt        # Python dependencies
+├── pyproject.toml         # Project metadata and tool config
+└── README.md              # This file
+```
+
+## Dependencies
+
+### Core
+- **fastapi** - Web framework
+- **uvicorn** - ASGI server
+- **pydantic** - Data validation
+
+### Optional (add as needed)
+- **sqlalchemy** - ORM for database
+- **alembic** - Database migrations
+- **aiofiles** - Async file handling
+- **httpx** - Async HTTP client
+
+### Development
+- **pytest** - Testing framework
+- **pytest-asyncio** - Async test support
+- **black** - Code formatter
+- **ruff** - Linter
+
+## Development
+
+### Code Quality
+
+#### Linting
+```bash
+# Check code with Ruff
+uv run ruff check .
+
+# Auto-fix issues
+uv run ruff check --fix .
+```
+
+#### Formatting
+```bash
+# Format with Black
+uv run black .
+
+# Check formatting without changes
+uv run black --check .
+```
+
+#### Type Checking
+```bash
+# Check types (requires mypy installation)
+uv run mypy .
+```
+
+### Testing
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with verbose output
+uv run pytest -v
+
+# Run specific file
+uv run pytest tests/test_health.py
+
+# Run with coverage
+uv run pytest --cov=app
+
+# Watch mode (requires pytest-watch)
+uv run ptw
+```
+
+### Adding Dependencies
+
+#### Using uv
+```bash
+# Add to requirements.txt and install
+uv pip install <package>
+
+# Freeze current environment
+uv pip freeze > requirements.txt
+```
+
+#### Using pip
+```bash
+pip install <package>
+pip freeze > requirements.txt
+```
+
+## API Endpoints
+
+### Health Check
+- **GET** `/health` - Check API health status
+- **GET** `/` - Root endpoint with API info
+
+Response:
+```json
+{
+  "status": "healthy"
+}
+```
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in the backend directory (see `.env.example`):
+
+```bash
+# Database
+DATABASE_URL=sqlite:///./test.db
+
+# Logging
+LOG_LEVEL=INFO
+
+# CORS
+CORS_ORIGINS=["http://localhost:5173", "http://localhost:3000"]
+```
+
+### Load from Environment
+```python
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    database_url: str = "sqlite:///./test.db"
+    log_level: str = "INFO"
+    
+    class Config:
+        env_file = ".env"
+
+settings = Settings()
+```
+
+## Database Setup
+
+To add database support:
+
+1. **Install SQLAlchemy**:
+   ```bash
+   uv pip install sqlalchemy alembic psycopg2-binary
+   ```
+
+2. **Create models** in `app/models/`:
+   ```python
+   from sqlalchemy import Column, Integer, String
+   from sqlalchemy.ext.declarative import declarative_base
+
+   Base = declarative_base()
+
+   class Item(Base):
+       __tablename__ = "items"
+       id = Column(Integer, primary_key=True)
+       name = Column(String, nullable=False)
+   ```
+
+3. **Setup database in main.py**:
+   ```python
+   from sqlalchemy import create_engine
+   from sqlalchemy.orm import sessionmaker
+   
+   engine = create_engine(DATABASE_URL)
+   SessionLocal = sessionmaker(bind=engine)
+   
+   def get_db():
+       db = SessionLocal()
+       try:
+           yield db
+       finally:
+           db.close()
+   ```
+
+## Creating API Routes
+
+### Example: Items API
+
+1. **Create schema** (`app/schemas/item.py`):
+```python
+from pydantic import BaseModel
+
+class ItemBase(BaseModel):
+    name: str
+    description: str | None = None
+
+class ItemCreate(ItemBase):
+    pass
+
+class Item(ItemBase):
+    id: int
+    
+    class Config:
+        from_attributes = True
+```
+
+2. **Create router** (`app/api/items.py`):
+```python
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.schemas.item import ItemCreate, Item
+from app.services.item_service import ItemService
+
+router = APIRouter(prefix="/api/items", tags=["items"])
+
+@router.get("/", response_model=list[Item])
+async def list_items(db: Session = Depends(get_db)):
+    return ItemService.get_all(db)
+
+@router.post("/", response_model=Item)
+async def create_item(item: ItemCreate, db: Session = Depends(get_db)):
+    return ItemService.create(db, item)
+```
+
+3. **Include router in main.py**:
+```python
+from app.api import items
+app.include_router(items.router)
+```
+
+## Error Handling
+
+### Custom Exception Handler
+```python
+from fastapi import HTTPException
+
+@app.exception_handler(ValueError)
+async def value_error_handler(request, exc):
+    return JSONResponse(
+        status_code=400,
+        content={"detail": str(exc)},
+    )
+```
+
+### Validation Errors
+FastAPI automatically returns 422 for validation errors with detailed information.
+
+## Async/Await Best Practices
+
+```python
+# Good: Use async for I/O
+async def get_data():
+    async with httpx.AsyncClient() as client:
+        response = await client.get("https://api.example.com/data")
+        return response.json()
+
+# Avoid: Blocking operations in async endpoints
+def get_data():  # Don't use regular def
+    response = requests.get("...")  # Don't use blocking requests
+    return response.json()
+```
+
+## Performance Tips
+
+1. **Use connection pooling** for databases
+2. **Implement caching** for frequently accessed data
+3. **Use background tasks** for heavy operations
+4. **Monitor endpoints** with middleware
+5. **Implement pagination** for list endpoints
+
+Example background task:
+```python
+from fastapi import BackgroundTasks
+
+@app.post("/send-notification/")
+async def send_notification(email: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(send_email, email, message="some notification")
+    return {"message": "Notification sent in background"}
+```
+
+## Deployment
+
+### Docker
+
+Create `Dockerfile`:
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+Build and run:
+```bash
+docker build -t anki-backend .
+docker run -p 8000:8000 anki-backend
+```
+
+### Production ASGI Server
+
+Use production-grade ASGI servers:
+```bash
+# Gunicorn + Uvicorn workers
+pip install gunicorn
+gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker
+```
+
+## Troubleshooting
+
+### Module Import Errors
+```bash
+# Ensure you're in the correct directory
+cd backend
+
+# Reinstall dependencies
+uv pip install --force-reinstall -r requirements.txt
+```
+
+### Port Already in Use
+```bash
+# Find process using port 8000
+lsof -i :8000
+kill -9 <PID>
+
+# Or use different port
+uv run uvicorn app.main:app --reload --port 8001
+```
+
+### Async Issues
+- Always use `async def` for async endpoints
+- Use `await` for async function calls
+- Don't mix blocking and async code
+
+## Additional Resources
+
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Uvicorn Documentation](https://www.uvicorn.org/)
+- [Pydantic Documentation](https://docs.pydantic.dev/)
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
+- [pytest Documentation](https://docs.pytest.org/)

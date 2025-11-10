@@ -1,3 +1,26 @@
+# === General ===
+.DS_Store
+.idea/
+*.swp
+*.swo
+*~
+.vscode/
+*.code-workspace
+
+# === Frontend (Node.js / pnpm) ===
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/pnpm-lock.yaml
+frontend/.pnpm-store/
+
 # Logs
 logs
 *.log
@@ -38,7 +61,6 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -80,23 +102,12 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 .vuepress/dist
-
-# vuepress v2.x temp and cache directory
-.temp
-.cache
-
-# Sveltekit cache directory
-.svelte-kit/
 
 # vitepress build output
 **/.vitepress/dist
@@ -137,3 +148,130 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# === Backend (Python) ===
+backend/.venv/
+backend/venv/
+backend/env/
+backend/.env
+backend/.env.local
+backend/.env.*.local
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
+
+# pip
+backend/pip-log.txt
+backend/pip-delete-this-directory.txt
+
+# Packages
+backend/*.egg-info/
+backend/.eggs/
+backend/dist/
+backend/build/
+
+# pytest, coverage and pytest plugins
+backend/.tox/
+backend/.coverage
+backend/.coverage.*
+backend/.cache
+backend/nosetests.xml
+backend/coverage.xml
+backend/*.cover
+backend/.hypothesis/
+backend/.pytest_cache/
+backend/cover/
+
+# Translations
+backend/*.mo
+backend/*.pot
+
+# Django stuff:
+backend/*.log
+backend/local_settings.py
+backend/db.sqlite3
+backend/db.sqlite3-journal
+
+# Flask stuff:
+backend/instance/
+backend/.webassets-cache
+
+# Scrapy stuff:
+backend/.scrapy
+
+# Sphinx documentation
+backend/docs/_build/
+
+# PyBuilder
+backend/target/
+
+# Jupyter Notebook
+backend/.ipynb_checkpoints
+
+# IPython
+backend/profile_default/
+backend/ipython_config.py
+
+# pyenv
+backend/.python-version
+
+# pipenv
+backend/Pipfile.lock
+
+# PEP 582
+backend/__pypackages__/
+
+# Celery stuff
+backend/celerybeat-schedule
+backend/celerybeat.pid
+
+# SageMath parsed files
+backend/*.sage.py
+
+# Environments
+backend/.venv
+backend/venv/
+backend/ENV/
+backend/env/
+
+# Spyder project settings
+backend/.spyderproject
+backend/.spyproject
+
+# Rope project settings
+backend/.ropeproject
+
+# mkdocs documentation
+backend/site/
+
+# mypy
+backend/.mypy_cache/
+backend/.dmypy.json
+backend/dmypy.json
+
+# Pyre type checker
+backend/.pyre/
+
+# pytype static type analyzer
+backend/.pytype/
+
+# Cython debug symbols
+backend/cython_debug/
+
+# UV (uv-venv)
+backend/.uv/
+
+# IDE
+backend/.vscode/
+backend/.idea/
+backend/*.swp
+backend/*.swo
+
+# OS
+backend/.DS_Store
+backend/Thumbs.db
+
+# === Root level ===
+.pre-commit/
+/dist/
+/build/

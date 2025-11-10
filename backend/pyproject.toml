@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anki-image-occlusion-backend"
+version = "0.1.0"
+description = "FastAPI backend for Anki Image Occlusion Cards Generation"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Team", email = "team@example.com" }]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = [
+  "E",
+  "F",
+  "W",
+  "I001",
+]
+ignore = [
+  "E501",  # Line too long - Black handles this
+]
+exclude = [
+  ".git",
+  ".venv",
+  "__pycache__",
+  ".pytest_cache",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v --strict-markers"
