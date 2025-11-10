@@ -1,22 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import './App.css';
+import { UploadWizard } from './pages/UploadWizard';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <h1>Anki Image Occlusion Generator</h1>
-        <p>Welcome to the application</p>
-      </div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
-  )
+    <div className="app">
+      <UploadWizard />
+    </div>
+  );
 }
 
-export default App
+export default App;
