@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/components/CacheSettings.tsx","./src/components/DeckExample.tsx","./src/components/OfflineIndicator.tsx","./src/hooks/useDeckStore.ts","./src/hooks/useOnlineStatus.ts","./src/services/backgroundSync.ts","./src/services/db.ts","./src/services/serviceWorkerManager.ts"],"version":"5.9.3"}

@@ -1,0 +1,153 @@
+.deck-example {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  margin-top: 1.5rem;
+}
+
+.deck-example h3 {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+.message {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.message-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.message-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.deck-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.deck-form input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.deck-form button {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.deck-form button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.deck-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deck-list h4 {
+  margin-top: 0;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.deck-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.deck-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.deck-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.deck-info strong {
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.deck-info small {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.delete-btn {
+  padding: 0.25rem 0.75rem;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .deck-form {
+    flex-direction: column;
+  }
+
+  .deck-form button {
+    width: 100%;
+  }
+
+  .deck-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .delete-btn {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}
