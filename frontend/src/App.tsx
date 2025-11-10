@@ -1,21 +1,17 @@
-import { useState } from 'react'
 import './App.css'
+import { DeckManager } from './components/deck'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
+    <div className="app">
+      <header className="app-header">
         <h1>Anki Image Occlusion Generator</h1>
-        <p>Welcome to the application</p>
-      </div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
+        <p>Manage your flashcard decks with offline support</p>
+      </header>
+      <main className="app-main">
+        <DeckManager />
+      </main>
+    </div>
   )
 }
 
