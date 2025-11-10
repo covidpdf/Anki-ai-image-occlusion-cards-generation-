@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Main FastAPI application
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./app.db
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=["http://localhost:5173", "http://localhost:3000"]
+      - REDIS_URL=redis://redis:6379/0
+      - STORAGE_TYPE=local
+      - STORAGE_PATH=/app/storage
+      - DEBUG=false
+    volumes:
+      - ./backend/storage:/app/storage
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Redis for background tasks and caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - app-network
+    command: redis-server --appendonly yes
+
+  # Redis worker for background tasks (using RQ)
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: python -m rq worker --url redis://redis:6379/0
+    environment:
+      - DATABASE_URL=sqlite:///./app.db
+      - LOG_LEVEL=INFO
+      - REDIS_URL=redis://redis:6379/0
+      - STORAGE_TYPE=local
+      - STORAGE_PATH=/app/storage
+    volumes:
+      - ./backend/storage:/app/storage
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - app-network
+    deploy:
+      replicas: 2
+
+  # Redis Dashboard (optional, for monitoring)
+  redis-dashboard:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - app-network
+    profiles:
+      - monitoring
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
