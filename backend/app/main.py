@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import health
+from app.api import cards, health
 
 app = FastAPI(
     title="Anki Image Occlusion API",
@@ -21,6 +21,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(health.router, tags=["health"])
+app.include_router(cards.router)
 
 
 @app.get("/")
