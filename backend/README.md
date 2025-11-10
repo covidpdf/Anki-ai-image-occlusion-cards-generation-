@@ -1,387 +1,333 @@
-# Backend - FastAPI Application
+# Backend - FastAPI Foundation
 
-This is the backend service for the Anki Image Occlusion Cards Generation application, built with FastAPI.
+A comprehensive FastAPI backend foundation with modular architecture, dependency injection, background task processing, and file handling capabilities.
 
-## Quick Start
+## Features
 
-### Prerequisites
-
-- Python 3.11+
-- uv (recommended) or pip
-- Virtual environment (optional but recommended)
-
-### Installation
-
-```bash
-# Install dependencies
-uv pip install -r requirements.txt
-
-# Or with pip
-pip install -r requirements.txt
-```
-
-### Running the Server
-
-```bash
-# Start development server with auto-reload
-uv run uvicorn app.main:app --reload
-
-# Or specify custom host/port
-uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The API will be available at `http://localhost:8000`
-
-### API Documentation
-
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **OpenAPI JSON**: http://localhost:8000/openapi.json
+- **🚀 FastAPI Framework**: Modern, fast web framework for building APIs
+- **🔧 Modular Architecture**: Clean separation of concerns with layers (API, Services, Core)
+- **💉 Dependency Injection**: Custom DI container for service management
+- **📁 File Management**: Upload, download, and storage abstraction (local/S3)
+- **⚡ Background Tasks**: Async task processing with Redis/RQ support
+- **🏥 Health Checks**: Comprehensive health monitoring and status endpoints
+- **📝 Structured Logging**: JSON-based logging with structlog
+- **🔒 CORS Support**: Configurable cross-origin resource sharing
+- **📊 Pydantic Schemas**: Type-safe data validation and serialization
+- **🐳 Docker Support**: Containerized deployment with Docker Compose
+- **🧪 Testing**: Comprehensive smoke tests and pytest integration
 
 ## Project Structure
 
 ```
 backend/
 ├── app/
-│   ├── api/                # API route modules
-│   │   ├── __init__.py
-│   │   └── health.py      # Health check endpoints
-│   ├── models/             # Database models (SQLAlchemy)
+│   ├── api/                    # API route handlers
+│   │   ├── health.py          # Health check endpoints
+│   │   ├── files.py           # File upload/management
+│   │   ├── tasks.py           # Background task management
 │   │   └── __init__.py
-│   ├── schemas/            # Request/response schemas (Pydantic)
+│   ├── core/                   # Core application components
+│   │   ├── config.py          # Settings management
+│   │   ├── logging.py         # Logging configuration
+│   │   ├── dependencies.py    # Dependency injection
+│   │   ├── storage.py         # Storage abstraction
+│   │   ├── background_tasks.py # Task queue abstraction
 │   │   └── __init__.py
-│   ├── services/           # Business logic layer
+│   ├── services/               # Business logic layer
+│   │   ├── base.py            # Base service class
+│   │   ├── file_service.py    # File operations
+│   │   ├── task_service.py    # Task management
 │   │   └── __init__.py
-│   ├── __init__.py
-│   └── main.py            # FastAPI application setup
-├── tests/                  # Test suite
-│   ├── __init__.py
-│   └── test_health.py     # Health check tests
-├── requirements.txt        # Python dependencies
-├── pyproject.toml         # Project metadata and tool config
-└── README.md              # This file
+│   ├── schemas/               # Pydantic models
+│   │   ├── common.py          # Common schemas
+│   │   ├── file_schemas.py    # File-related schemas
+│   │   ├── task_schemas.py    # Task-related schemas
+│   │   └── __init__.py
+│   ├── models/                # Database models (future)
+│   │   └── __init__.py
+│   ├── main.py               # FastAPI application entry point
+│   ├── run.py                # Development server script
+│   ├── worker.py             # Background task worker
+│   └── __init__.py
+├── tests/                    # Test suite
+│   ├── test_health.py        # Health endpoint tests
+│   ├── test_smoke.py         # Comprehensive smoke tests
+│   └── __init__.py
+├── storage/                  # Local file storage
+├── uploads/                  # Temporary upload directory
+├── Dockerfile               # Docker configuration
+├── requirements.txt         # Python dependencies
+├── pyproject.toml          # Project configuration
+├── .env.example            # Environment variables template
+└── README.md               # This file
 ```
 
-## Dependencies
+## Quick Start
 
-### Core
-- **fastapi** - Web framework
-- **uvicorn** - ASGI server
-- **pydantic** - Data validation
+### Local Development
 
-### Optional (add as needed)
-- **sqlalchemy** - ORM for database
-- **alembic** - Database migrations
-- **aiofiles** - Async file handling
-- **httpx** - Async HTTP client
+1. **Install dependencies**:
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-### Development
-- **pytest** - Testing framework
-- **pytest-asyncio** - Async test support
-- **black** - Code formatter
-- **ruff** - Linter
+2. **Set up environment**:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
 
-## Development
+3. **Start the development server**:
+   ```bash
+   python run.py
+   # Or:
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
 
-### Code Quality
+4. **Access the API**:
+   - API Documentation: http://localhost:8000/docs
+   - Alternative Docs: http://localhost:8000/redoc
+   - Health Check: http://localhost:8000/api/v1/health
 
-#### Linting
-```bash
-# Check code with Ruff
-uv run ruff check .
+### Docker Deployment
 
-# Auto-fix issues
-uv run ruff check --fix .
-```
+1. **Using Docker Compose**:
+   ```bash
+   # From project root
+   docker-compose -f docker-compose.backend.yml up -d
+   ```
 
-#### Formatting
-```bash
-# Format with Black
-uv run black .
+2. **Services included**:
+   - API Server (port 8000)
+   - Redis (port 6379)
+   - Background Workers (2 instances)
+   - Redis Dashboard (port 8081, optional)
 
-# Check formatting without changes
-uv run black --check .
-```
-
-#### Type Checking
-```bash
-# Check types (requires mypy installation)
-uv run mypy .
-```
-
-### Testing
-
-```bash
-# Run all tests
-uv run pytest
-
-# Run with verbose output
-uv run pytest -v
-
-# Run specific file
-uv run pytest tests/test_health.py
-
-# Run with coverage
-uv run pytest --cov=app
-
-# Watch mode (requires pytest-watch)
-uv run ptw
-```
-
-### Adding Dependencies
-
-#### Using uv
-```bash
-# Add to requirements.txt and install
-uv pip install <package>
-
-# Freeze current environment
-uv pip freeze > requirements.txt
-```
-
-#### Using pip
-```bash
-pip install <package>
-pip freeze > requirements.txt
-```
+3. **Stop services**:
+   ```bash
+   docker-compose -f docker-compose.backend.yml down
+   ```
 
 ## API Endpoints
 
-### Health Check
-- **GET** `/health` - Check API health status
-- **GET** `/` - Root endpoint with API info
+### Health & Status
+- `GET /api/v1/health` - Comprehensive health check
+- `GET /api/v1/status` - Application status and features
+- `GET /api/v1/ping` - Simple ping for load balancers
+- `GET /api/v1/readiness` - Kubernetes readiness probe
+- `GET /api/v1/liveness` - Kubernetes liveness probe
 
-Response:
-```json
-{
-  "status": "healthy"
-}
-```
+### File Management
+- `POST /api/v1/files/upload` - Upload a file
+- `GET /api/v1/files/info/{file_key}` - Get file information
+- `GET /api/v1/files/download/{file_key}` - Download a file
+- `DELETE /api/v1/files/{file_key}` - Delete a file
+- `GET /api/v1/files/list` - List all files (placeholder)
+
+### Background Tasks
+- `POST /api/v1/tasks/submit` - Submit a background task
+- `GET /api/v1/tasks/{task_id}/status` - Get task status
+- `GET /api/v1/tasks/{task_id}/result` - Get task result
+- `DELETE /api/v1/tasks/{task_id}` - Cancel a task
+- `GET /api/v1/tasks/{task_id}/wait` - Wait for task completion
+- `GET /api/v1/tasks/` - List all tasks (placeholder)
 
 ## Configuration
 
 ### Environment Variables
 
-Create a `.env` file in the backend directory (see `.env.example`):
+Key configuration options (see `.env.example`):
 
 ```bash
-# Database
-DATABASE_URL=sqlite:///./test.db
-
-# Logging
-LOG_LEVEL=INFO
+# Application
+APP_NAME=Anki Image Occlusion API
+DEBUG=false
+HOST=0.0.0.0
+PORT=8000
 
 # CORS
 CORS_ORIGINS=["http://localhost:5173", "http://localhost:3000"]
+
+# File Upload
+MAX_FILE_SIZE=10485760  # 10MB
+ALLOWED_FILE_TYPES=["image/jpeg", "image/png", "image/webp"]
+
+# Storage
+STORAGE_TYPE=local  # local, s3
+STORAGE_PATH=storage
+
+# Redis (Background Tasks)
+REDIS_URL=redis://localhost:6379/0
+
+# Logging
+LOG_LEVEL=INFO
 ```
 
-### Load from Environment
+### Storage Options
+
+#### Local Storage (Default)
+Files are stored in the `storage/` directory.
+
+#### AWS S3 Storage
+Set the following environment variables:
+```bash
+STORAGE_TYPE=s3
+AWS_ACCESS_KEY_ID=your_key
+AWS_SECRET_ACCESS_KEY=your_secret
+AWS_REGION=us-east-1
+S3_BUCKET_NAME=your_bucket
+```
+
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=app
+
+# Run specific test file
+pytest tests/test_smoke.py
+
+# Run with verbose output
+pytest -v
+```
+
+### Code Quality
+
+```bash
+# Format code
+black .
+
+# Lint code
+ruff check .
+
+# Type checking (if using mypy)
+mypy app/
+```
+
+### Adding New Services
+
+1. Create service class inheriting from `BaseService`
+2. Register in dependency container in `main.py`
+3. Create Pydantic schemas in `schemas/`
+4. Add API endpoints in `api/`
+
+Example:
 ```python
-from pydantic_settings import BaseSettings
+# services/my_service.py
+from .base import BaseService
+from ..core.logging import get_logger
 
-class Settings(BaseSettings):
-    database_url: str = "sqlite:///./test.db"
-    log_level: str = "INFO"
+class MyService(BaseService):
+    def __init__(self):
+        super().__init__()
     
-    class Config:
-        env_file = ".env"
-
-settings = Settings()
+    async def do_something(self):
+        self.log_info("Doing something")
+        return {"result": "success"}
 ```
 
-## Database Setup
+## Background Tasks
 
-To add database support:
+### Using In-Memory Queue (Development)
 
-1. **Install SQLAlchemy**:
+The default implementation uses an in-memory queue suitable for development.
+
+### Using Redis Queue (Production)
+
+1. Ensure Redis is running
+2. Set `REDIS_URL` environment variable
+3. Start workers:
    ```bash
-   uv pip install sqlalchemy alembic psycopg2-binary
+   python worker.py
+   # Or using Docker Compose
+   docker-compose -f docker-compose.backend.yml up worker
    ```
 
-2. **Create models** in `app/models/`:
-   ```python
-   from sqlalchemy import Column, Integer, String
-   from sqlalchemy.ext.declarative import declarative_base
-
-   Base = declarative_base()
-
-   class Item(Base):
-       __tablename__ = "items"
-       id = Column(Integer, primary_key=True)
-       name = Column(String, nullable=False)
-   ```
-
-3. **Setup database in main.py**:
-   ```python
-   from sqlalchemy import create_engine
-   from sqlalchemy.orm import sessionmaker
-   
-   engine = create_engine(DATABASE_URL)
-   SessionLocal = sessionmaker(bind=engine)
-   
-   def get_db():
-       db = SessionLocal()
-       try:
-           yield db
-       finally:
-           db.close()
-   ```
-
-## Creating API Routes
-
-### Example: Items API
-
-1. **Create schema** (`app/schemas/item.py`):
-```python
-from pydantic import BaseModel
-
-class ItemBase(BaseModel):
-    name: str
-    description: str | None = None
-
-class ItemCreate(ItemBase):
-    pass
-
-class Item(ItemBase):
-    id: int
-    
-    class Config:
-        from_attributes = True
-```
-
-2. **Create router** (`app/api/items.py`):
-```python
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from app.schemas.item import ItemCreate, Item
-from app.services.item_service import ItemService
-
-router = APIRouter(prefix="/api/items", tags=["items"])
-
-@router.get("/", response_model=list[Item])
-async def list_items(db: Session = Depends(get_db)):
-    return ItemService.get_all(db)
-
-@router.post("/", response_model=Item)
-async def create_item(item: ItemCreate, db: Session = Depends(get_db)):
-    return ItemService.create(db, item)
-```
-
-3. **Include router in main.py**:
-```python
-from app.api import items
-app.include_router(items.router)
-```
-
-## Error Handling
-
-### Custom Exception Handler
-```python
-from fastapi import HTTPException
-
-@app.exception_handler(ValueError)
-async def value_error_handler(request, exc):
-    return JSONResponse(
-        status_code=400,
-        content={"detail": str(exc)},
-    )
-```
-
-### Validation Errors
-FastAPI automatically returns 422 for validation errors with detailed information.
-
-## Async/Await Best Practices
+### Creating Custom Tasks
 
 ```python
-# Good: Use async for I/O
-async def get_data():
-    async with httpx.AsyncClient() as client:
-        response = await client.get("https://api.example.com/data")
-        return response.json()
+from app.core.background_tasks import get_task_queue
 
-# Avoid: Blocking operations in async endpoints
-def get_data():  # Don't use regular def
-    response = requests.get("...")  # Don't use blocking requests
-    return response.json()
+async def my_background_task(data: dict):
+    """Custom background task"""
+    # Process data
+    result = await process_data(data)
+    return result
+
+# Submit task
+task_queue = get_task_queue()
+task_id = await task_queue.enqueue(my_background_task, {"key": "value"})
 ```
 
-## Performance Tips
+## Monitoring & Logging
 
-1. **Use connection pooling** for databases
-2. **Implement caching** for frequently accessed data
-3. **Use background tasks** for heavy operations
-4. **Monitor endpoints** with middleware
-5. **Implement pagination** for list endpoints
+### Structured Logging
 
-Example background task:
-```python
-from fastapi import BackgroundTasks
+The application uses structured logging with `structlog`. Logs are output as JSON in production and formatted for development.
 
-@app.post("/send-notification/")
-async def send_notification(email: str, background_tasks: BackgroundTasks):
-    background_tasks.add_task(send_email, email, message="some notification")
-    return {"message": "Notification sent in background"}
-```
+### Health Monitoring
 
-## Deployment
+- Health checks include storage and task queue status
+- Kubernetes-ready with readiness/liveness probes
+- Component-level health reporting
 
-### Docker
+### Redis Dashboard
 
-Create `Dockerfile`:
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-Build and run:
+When using Docker Compose with monitoring profile:
 ```bash
-docker build -t anki-backend .
-docker run -p 8000:8000 anki-backend
+docker-compose -f docker-compose.backend.yml --profile monitoring up
 ```
 
-### Production ASGI Server
+Access Redis Dashboard at: http://localhost:8081
 
-Use production-grade ASGI servers:
+## Production Deployment
+
+### Environment Setup
+
+1. Set `DEBUG=false`
+2. Configure proper CORS origins
+3. Set up Redis cluster
+4. Configure S3 storage
+5. Set up proper logging levels
+6. Configure reverse proxy (nginx/caddy)
+
+### Docker Production
+
 ```bash
-# Gunicorn + Uvicorn workers
-pip install gunicorn
-gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker
+# Build image
+docker build -t anki-backend ./backend
+
+# Run with environment variables
+docker run -d \
+  -p 8000:8000 \
+  -e REDIS_URL=redis://your-redis:6379/0 \
+  -e STORAGE_TYPE=s3 \
+  -e AWS_ACCESS_KEY_ID=your_key \
+  -v /path/to/storage:/app/storage \
+  anki-backend
 ```
 
-## Troubleshooting
+### Scaling Workers
 
-### Module Import Errors
 ```bash
-# Ensure you're in the correct directory
-cd backend
-
-# Reinstall dependencies
-uv pip install --force-reinstall -r requirements.txt
+# Scale workers using Docker Compose
+docker-compose -f docker-compose.backend.yml up -d --scale worker=5
 ```
 
-### Port Already in Use
-```bash
-# Find process using port 8000
-lsof -i :8000
-kill -9 <PID>
+## Contributing
 
-# Or use different port
-uv run uvicorn app.main:app --reload --port 8001
-```
+1. Follow existing code patterns
+2. Add tests for new features
+3. Update documentation
+4. Run pre-commit hooks before committing
+5. Ensure all tests pass
 
-### Async Issues
-- Always use `async def` for async endpoints
-- Use `await` for async function calls
-- Don't mix blocking and async code
+## License
 
-## Additional Resources
-
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Uvicorn Documentation](https://www.uvicorn.org/)
-- [Pydantic Documentation](https://docs.pydantic.dev/)
-- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
-- [pytest Documentation](https://docs.pytest.org/)
+MIT License
