@@ -1,0 +1,189 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > matches snapshot 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-slate-100"
+  >
+    <header
+      class="border-b border-slate-200 bg-white"
+    >
+      <div
+        class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-wide text-slate-500"
+          >
+            Anki Decks Pro
+          </p>
+          <h1
+            class="text-2xl font-semibold text-slate-900"
+          >
+            Bootstrap overview
+          </h1>
+          <p
+            class="mt-1 text-sm text-slate-600"
+          >
+            A guided preview of the MVP workflow.
+          </p>
+        </div>
+        <span
+          class="inline-flex items-center justify-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+        >
+          MVP scaffold
+        </span>
+      </div>
+    </header>
+    <main
+      class="mx-auto max-w-5xl px-6 py-10"
+    >
+      <nav
+        aria-label="Workflow"
+        class="mb-10"
+      >
+        <ol
+          class="flex flex-col gap-4 sm:flex-row sm:items-center"
+        >
+          <li
+            class="flex items-center gap-3 text-sm text-slate-600"
+          >
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white"
+            >
+              1
+            </span>
+            <span
+              class="font-medium text-slate-700"
+            >
+              Upload & OCR
+            </span>
+            <span
+              aria-hidden="true"
+              class="hidden flex-1 border-t border-dashed border-slate-300 sm:block"
+            />
+          </li>
+          <li
+            class="flex items-center gap-3 text-sm text-slate-600"
+          >
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white"
+            >
+              2
+            </span>
+            <span
+              class="font-medium text-slate-700"
+            >
+              Occlusion Editor
+            </span>
+            <span
+              aria-hidden="true"
+              class="hidden flex-1 border-t border-dashed border-slate-300 sm:block"
+            />
+          </li>
+          <li
+            class="flex items-center gap-3 text-sm text-slate-600"
+          >
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white"
+            >
+              3
+            </span>
+            <span
+              class="font-medium text-slate-700"
+            >
+              Card Builder
+            </span>
+            <span
+              aria-hidden="true"
+              class="hidden flex-1 border-t border-dashed border-slate-300 sm:block"
+            />
+          </li>
+          <li
+            class="flex items-center gap-3 text-sm text-slate-600"
+          >
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white"
+            >
+              4
+            </span>
+            <span
+              class="font-medium text-slate-700"
+            >
+              Export Decks
+            </span>
+          </li>
+        </ol>
+      </nav>
+      <div
+        class="grid gap-6 md:grid-cols-2"
+      >
+        <div>
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h2
+              class="text-lg font-semibold text-slate-900"
+            >
+              Upload & OCR
+            </h2>
+            <p
+              class="mt-2 text-sm text-slate-600"
+            >
+              Add screenshots or images and extract reference text for your occlusion workflows.
+            </p>
+          </section>
+        </div>
+        <div>
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h2
+              class="text-lg font-semibold text-slate-900"
+            >
+              Occlusion Editor
+            </h2>
+            <p
+              class="mt-2 text-sm text-slate-600"
+            >
+              Draw masks on images using canvas-based tooling to create dynamic occlusion exercises.
+            </p>
+          </section>
+        </div>
+        <div>
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h2
+              class="text-lg font-semibold text-slate-900"
+            >
+              Card Builder
+            </h2>
+            <p
+              class="mt-2 text-sm text-slate-600"
+            >
+              Organize prompts, hints, and reveals to assemble polished flashcards for Anki.
+            </p>
+          </section>
+        </div>
+        <div>
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h2
+              class="text-lg font-semibold text-slate-900"
+            >
+              Export Decks
+            </h2>
+            <p
+              class="mt-2 text-sm text-slate-600"
+            >
+              Package your finished cards into Anki-compatible deck formats for seamless import.
+            </p>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
