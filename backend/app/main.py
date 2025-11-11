@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import health
 
 app = FastAPI(
-    title="Anki Image Occlusion API",
-    description="API for generating Anki flashcard images with AI-powered occlusion",
+    title="Anki Decks Pro API",
+    description="Lightweight API services for the Anki Decks Pro MVP",
     version="0.1.0",
 )
 
@@ -27,6 +27,6 @@ app.include_router(health.router, tags=["health"])
 async def root():
     """Root endpoint"""
     return {
-        "message": "Anki Image Occlusion API",
+        "message": "Anki Decks Pro API",
         "docs": "/docs",
     }

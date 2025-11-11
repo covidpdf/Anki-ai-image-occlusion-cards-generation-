@@ -1,1 +1,1 @@
-"""Anki Image Occlusion Backend API"""
+"""Anki Decks Pro Backend API"""

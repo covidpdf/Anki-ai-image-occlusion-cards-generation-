@@ -1,6 +1,6 @@
 # Frontend - React + Vite Application
 
-This is the frontend for the Anki Image Occlusion Cards Generation application, built with React 18 and Vite.
+This is the frontend for **Anki Decks Pro**, built with React 18 and Vite for a fast, lightweight flashcard creation experience.
 
 ## Quick Start
 

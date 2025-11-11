@@ -2,17 +2,25 @@
 
 ## Overview
 
-This is a **monorepo** containing both frontend and backend for the Anki Image Occlusion Cards Generation application. The monorepo structure allows for:
+This is a **monorepo** containing both frontend and backend for **Anki Decks Pro**, a lightweight flashcard creation tool with manual image occlusion editing. The monorepo structure allows for:
 
 - Shared configuration and tooling
 - Unified version control
 - Coordinated testing and deployment
 - Single source of truth for documentation
 
+## Product Philosophy
+
+Anki Decks Pro is an **MVP-focused** product built on these principles:
+1. **Manual over Automatic**: User-driven occlusion editing, no AI/ML complexity
+2. **Client-Side First**: Minimize server dependencies and infrastructure
+3. **Keyboard Efficiency**: Fast workflows with shortcuts for power users
+4. **Quality Gates**: Every feature must pass strict linting, type checks, and tests
+
 ## Project Structure
 
 ```
-anki-ai-image-occlusion-cards-generation/
+anki-decks-pro/
 ├── frontend/                       # React + Vite SPA
 │   ├── src/
 │   │   ├── components/            # Reusable React components
@@ -340,14 +348,14 @@ To run manually: `pre-commit run --all-files`
 
 ## Future Considerations
 
-1. **Database Integration**: Add SQLAlchemy models and migrations
-2. **Authentication**: JWT or OAuth2 implementation
-3. **Caching**: Redis for session/response caching
-4. **File Storage**: S3 or cloud storage integration
-5. **Image Processing**: PIL/OpenCV for image manipulation
-6. **Deployment**: Docker containerization and k8s orchestration
-7. **Monitoring**: Prometheus metrics and ELK stack
-8. **API Versioning**: V1, V2 versioning strategy
+1. **Image Upload & Preview**: Client-side validation and preview rendering
+2. **Batch Card Creation**: Generate multiple occlusion templates per image
+3. **Deck Metadata**: Capture tags, notes, and scheduling hints
+4. **Template Exporters**: Direct `.apkg` or text export for Anki import
+5. **Collaboration Hooks**: Shared templates via lightweight backend endpoints
+6. **Accessibility Enhancements**: High-contrast themes and keyboard-first UX polishing
+7. **Offline Support**: Local storage persistence and sync primitives
+8. **Deployment Packaging**: Docker images and lightweight PaaS deployment scripts
 
 ## Reference
 
