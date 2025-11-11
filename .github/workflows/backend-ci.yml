@@ -1,4 +1,4 @@
-name: Backend CI
+name: Anki Decks Pro - Backend CI
 
 on:
   push:
@@ -17,6 +17,7 @@ on:
 
 jobs:
   lint-and-test:
+    name: Lint, Format Check & Test
     runs-on: ubuntu-latest
     strategy:
       matrix:

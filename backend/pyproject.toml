@@ -3,9 +3,9 @@ requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "anki-image-occlusion-backend"
+name = "anki-decks-pro-backend"
 version = "0.1.0"
-description = "FastAPI backend for Anki Image Occlusion Cards Generation"
+description = "FastAPI backend for Anki Decks Pro"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

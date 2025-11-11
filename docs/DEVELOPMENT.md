@@ -2,6 +2,8 @@
 
 ## Getting Started
 
+Welcome to **Anki Decks Pro** development! This guide covers the complete workflow for contributing to this lightweight flashcard creation tool.
+
 ### Prerequisites
 
 - Node.js v18+ ([download](https://nodejs.org/))
@@ -15,7 +17,7 @@
 1. **Clone and navigate to the project**:
    ```bash
    git clone <repository-url>
-   cd anki-ai-image-occlusion-cards-generation
+   cd anki-decks-pro
    ```
 
 2. **Install pre-commit hooks**:

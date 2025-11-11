@@ -1,6 +1,6 @@
-# Image Occlusion Editor - Implementation Summary
+# Anki Decks Pro - Occlusion Editor Implementation Summary
 
-## Ticket Completed: Deliver Image Occlusion Tool
+## Ticket Completed: Deliver Manual Occlusion Tool
 
 ### Objective
 Develop a canvas-based occlusion editor enabling users to draw, resize, and label mask rectangles atop uploaded images with support for keyboard shortcuts, multi-mask management, preview-and-reveal interactions, and undo/redo history.

@@ -49,3 +49,5 @@ Thumbs.db
 *.sqlite
 *.db
 .cache/
+.venv/
+uv.lock

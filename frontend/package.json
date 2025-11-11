@@ -1,5 +1,6 @@
 {
-  "name": "anki-image-occlusion-frontend",
+  "name": "anki-decks-pro-frontend",
+  "description": "Anki Decks Pro - Lightweight flashcard creation with manual image occlusion editing",
   "private": true,
   "version": "0.1.0",
   "type": "module",

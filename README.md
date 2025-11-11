@@ -1,6 +1,20 @@
-# Anki AI Image Occlusion Cards Generation
+# Anki Decks Pro
 
-A full-stack application for automatically generating Anki flashcard images with AI-powered occlusion. This project combines a modern React + Vite frontend with a FastAPI backend.
+A lightweight, full-stack application for creating Anki flashcard decks with manual image occlusion editing. This MVP focuses on core flashcard creation features without heavy AI processing, delivering a fast and accessible web interface.
+
+## Core Pillars
+
+1. **Manual Image Occlusion Editor**: Canvas-based drawing tool for creating occlusion masks on images
+2. **Export/Import Templates**: JSON-based template system for Anki deck integration
+3. **Client-Side Processing**: Lightweight architecture with no heavy ML/AI models
+4. **Keyboard-First UX**: Fast workflow with keyboard shortcuts (undo/redo, delete, escape)
+
+## MVP Constraints
+
+- ✅ No server-side AI/ML models (keeps infrastructure lightweight)
+- ✅ No complex image processing pipeline (client-side canvas only)
+- ✅ No database initially (client-side state management)
+- ✅ Focus on core occlusion editing and export functionality
 
 ## Project Architecture
 
@@ -251,11 +265,40 @@ uv pip install --compile-bytecode -r requirements.txt
 
 ## Contributing
 
+### Development Roadmap
+
+The Anki Decks Pro MVP is being built in **11 focused micro-tasks** to maintain quality and scope:
+
+1. ✅ **Project Setup**: Monorepo scaffolding with React + FastAPI
+2. ✅ **Canvas Editor Foundation**: Basic drawing and mask creation
+3. ✅ **Mask Operations**: CRUD operations for occlusion masks
+4. ✅ **State Management**: Reducer pattern with undo/redo support
+5. ✅ **Keyboard Shortcuts**: Productivity features (Ctrl+Z, Delete, Escape)
+6. ✅ **Export/Import Templates**: JSON template system
+7. ✅ **Testing Suite**: Unit tests for reducers, utils, and hooks
+8. 🔄 **Backend API**: Health checks and future endpoints
+9. ⏳ **Image Upload**: File handling and preview
+10. ⏳ **Batch Operations**: Multi-card creation workflow
+11. ⏳ **Anki Integration**: Direct export to Anki format
+
+### Quality Gates
+
+All contributions must pass:
+- ✅ **Linting**: ESLint (frontend), Ruff (backend)
+- ✅ **Formatting**: Prettier (frontend), Black (backend)
+- ✅ **Type Safety**: TypeScript strict mode, Python type hints
+- ✅ **Tests**: Unit tests with 80%+ coverage target
+- ✅ **CI/CD**: All GitHub Actions workflows must pass
+- ✅ **Pre-commit Hooks**: Automated checks before every commit
+
+### Contribution Workflow
+
 1. Create a feature branch: `git checkout -b feature/your-feature`
 2. Make your changes and ensure all checks pass: `pre-commit run --all-files`
-3. Commit your changes: `git commit -m "feat: your feature description"`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request
+3. Run tests: `pnpm test` (frontend) and `uv run pytest` (backend)
+4. Commit your changes: `git commit -m "feat: your feature description"`
+5. Push to the branch: `git push origin feature/your-feature`
+6. Open a Pull Request
 
 ## License
 

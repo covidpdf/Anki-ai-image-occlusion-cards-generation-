@@ -1,6 +1,6 @@
 # Backend - FastAPI Application
 
-This is the backend service for the Anki Image Occlusion Cards Generation application, built with FastAPI.
+This is the backend service for **Anki Decks Pro**, providing lightweight API endpoints for the flashcard creation workflow.
 
 ## Quick Start
 

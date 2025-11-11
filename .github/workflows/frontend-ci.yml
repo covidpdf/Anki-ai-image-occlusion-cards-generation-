@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Anki Decks Pro - Frontend CI
 
 on:
   push:
@@ -17,6 +17,7 @@ on:
 
 jobs:
   lint-and-test:
+    name: Lint, Type Check, Build & Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -55,4 +56,4 @@ jobs:
 
       - name: Test
         working-directory: ./frontend
-        run: pnpm test --run 2>/dev/null || echo "No tests configured yet"
+        run: pnpm test
