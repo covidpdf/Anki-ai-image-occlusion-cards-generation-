@@ -13,10 +13,10 @@ This is the backend service for **Anki Decks Pro**, providing lightweight API en
 ### Installation
 
 ```bash
-# Install dependencies
-uv pip install -r requirements.txt
+# Recommended: install dependencies with uv
+uv sync
 
-# Or with pip
+# Or install with pip using the pinned requirements
 pip install -r requirements.txt
 ```
 
